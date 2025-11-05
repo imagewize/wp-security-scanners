@@ -13,7 +13,7 @@ Comprehensive dual-scanner security suite for WordPress malware detection and se
 ```bash
 # Clone to your WordPress root
 cd /path/to/wordpress
-git clone https://github.com/jasperf/wp-security-scanners.git
+git clone https://github.com/imagewize/wp-security-scanners.git
 
 # Run both scanners (recommended first scan)
 php wp-security-scanners/security-scanner.php
@@ -193,7 +193,7 @@ https://yoursite.com/wp-security-scanners/security-scanner.php
 
 ```bash
 # From WordPress root
-git clone https://github.com/jasperf/wp-security-scanners.git
+git clone https://github.com/imagewize/wp-security-scanners.git
 php wp-security-scanners/security-scanner.php
 
 # Clean up after scanning
@@ -204,7 +204,7 @@ rm -rf wp-security-scanners
 
 ```bash
 # Download release
-wget https://github.com/jasperf/wp-security-scanners/archive/main.zip
+wget https://github.com/imagewize/wp-security-scanners/archive/main.zip
 unzip main.zip
 php wp-security-scanners-main/security-scanner.php
 
@@ -263,7 +263,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run Security Scanner
         run: |
-          git clone https://github.com/jasperf/wp-security-scanners.git
+          git clone https://github.com/imagewize/wp-security-scanners.git
           php wp-security-scanners/security-scanner-targeted.php .
 ```
 
@@ -395,7 +395,7 @@ MIT License - see LICENSE file for details
 ## 📞 Support
 
 - **Documentation:** See [SECURITY-SCANNER-GUIDE.md](SECURITY-SCANNER-GUIDE.md)
-- **Issues:** https://github.com/jasperf/wp-security-scanners/issues
+- **Issues:** https://github.com/imagewize/wp-security-scanners/issues
 - **Security:** Report vulnerabilities privately via GitHub
 
 ---
