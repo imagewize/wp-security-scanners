@@ -90,8 +90,15 @@ php security-scanner-targeted.php ~/sites/mysite.com
 ### Via WP-CLI (Production Safe)
 
 ```bash
-# Run from WordPress root
+# Run from WordPress root (auto-detects path)
 wp eval-file wp-security-scanners/security-scanner.php
+
+# Scan specific WordPress installation with --path flag
+wp eval-file wp-security-scanners/security-scanner.php --path=/var/www/vhosts/yoursite.com
+
+# Run individual scanners
+wp eval-file wp-security-scanners/security-scanner-targeted.php --path=/var/www/vhosts/yoursite.com
+wp eval-file wp-security-scanners/security-scanner-general.php --path=/var/www/vhosts/yoursite.com
 ```
 
 ### Recommended Schedule
@@ -237,7 +244,11 @@ sites=(
 
 for site in "${sites[@]}"; do
     echo "Scanning $site..."
+    # Option 1: Direct PHP
     php security-scanner-targeted.php "$site"
+
+    # Option 2: Via WP-CLI with --path flag
+    # wp eval-file security-scanner-targeted.php --path="$site"
 done
 ```
 

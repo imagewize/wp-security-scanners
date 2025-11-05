@@ -48,22 +48,47 @@ if (php_sapi_name() !== 'cli') {
 }
 
 // Scan configuration
-// Allow custom path from command line: php security-scanner.php /path/to/scan
+// Allow custom path from command line or WP-CLI
+// Usage: php security-scanner.php /path/to/scan
+//        wp eval-file security-scanner.php --path=/path/to/scan
 $custom_path = null;
-if (php_sapi_name() === 'cli' && isset($argv[1])) {
-    $custom_path = $argv[1];
+
+// Detect path from various sources
+if (php_sapi_name() === 'cli') {
+    // Check for --path= flag (works with WP-CLI)
+    if (isset($_SERVER['argv'])) {
+        foreach ($_SERVER['argv'] as $arg) {
+            if (strpos($arg, '--path=') === 0) {
+                $custom_path = substr($arg, 7); // Remove '--path='
+                break;
+            }
+        }
+    }
+
+    // Check for direct path argument (standard CLI)
+    if (!$custom_path && isset($argv[1]) && strpos($argv[1], '--') !== 0) {
+        $custom_path = $argv[1];
+    }
+
     // Expand ~ to home directory
-    if (substr($custom_path, 0, 2) === '~/') {
+    if ($custom_path && substr($custom_path, 0, 2) === '~/') {
         $custom_path = $_SERVER['HOME'] . substr($custom_path, 1);
     }
-    if (!is_dir($custom_path)) {
+
+    // Validate directory exists
+    if ($custom_path && !is_dir($custom_path)) {
         echo "Error: Directory not found: {$custom_path}\n";
         exit(1);
     }
 }
 
+// Fallback to WordPress root if available
+if (!$custom_path && defined('ABSPATH')) {
+    $custom_path = ABSPATH;
+}
+
 $config = [
-    'start_path' => $custom_path ?: dirname(__FILE__, 4), // WordPress root (3 levels up from theme) or custom path
+    'start_path' => $custom_path ?: dirname(__FILE__, 4), // WordPress root or custom path
     'exclude_dirs' => [
         'node_modules',
         '.git',
